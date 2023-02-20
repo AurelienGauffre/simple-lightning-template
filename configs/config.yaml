@@ -1,0 +1,23 @@
+# Model parameters
+model:
+  name: imageclassifier
+  arch: resnet18
+
+# Datamodule parameter
+datamodule:
+  name: imagenette160
+  path: #if None, default dataset path is ~/datasets/[datamodule.name]
+
+# Optim parameters
+epochs: 2
+batch_size: 16
+lr: 0.1
+
+# Logging parameters
+wandb:
+  project: pytorch-template
+  name: #if None, wandb chose random number
+
+# Other parameters
+nb_workers: 8
+resume: False
