@@ -12,8 +12,8 @@ from pathlib import Path
 
 
 class ImageDataModule(pl.LightningDataModule):
-    """Basic Image Datamodule to load images from a folder for image classification.
-    The dataset folder must contains at least two folders, 'train' and 'val', each of which being in Pytroch ImageFolder
+    """Basic image datamodule to load images from a folder for image classification.
+    The dataset folder must contain at least two folders, 'train' and 'val', each of which being in Pytroch ImageFolder
     format (https://pytorch.org/vision/main/generated/torchvision.datasets.ImageFolder.html).
     """
 
@@ -28,7 +28,7 @@ class ImageDataModule(pl.LightningDataModule):
 
         self.train_transforms = None  # todo Raiseimplement error ?
         self.val_transforms = None
-        self.nb_classes = None
+        self.num_classes = None
 
     def train_dataloader(self):
         train_dataset = torchvision.datasets.ImageFolder(str(self.data_dir_train), transform=self.train_transforms)
@@ -47,19 +47,20 @@ class ImageDataModule(pl.LightningDataModule):
         return torch.utils.data.DataLoader(
             val_dataset,
             batch_size=self.batch_size,
-            shuffle=True,
+            shuffle=False,
             drop_last=True,
             num_workers=self.nb_workers,
         )
 
 
 class Imagenette160Datamodule(ImageDataModule):
+    """ Download dataset at : https://github.com/fastai/imagenette"""
     def __init__(self, params):
         super().__init__(params)
         self.data_dir = Path(Path.home() / 'datasets' / 'Imagenette160') if params.datamodule.path is None \
             else params.dataset.path
         Path(Path.home() / 'datasets/Imagenette160')
-        self.nb_classes = 10
+        self.num_classes = params.datamodule.num_classes
         tr_normalize = torchvision.transforms.Normalize(
             mean=[0.485, 0.456, 0.406], std=[0.228, 0.224, 0.225]
         )

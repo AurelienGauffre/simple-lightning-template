@@ -14,6 +14,7 @@ class ImageClassifier(LightningModule):
         self.lr = params.lr
         self.epochs = params.epochs
         self.batch_size = params.batch_size
+        self.num_classes = params.datamodule.num_classes
 
     def forward(self, x):
         out = self.arch(x)
@@ -37,7 +38,7 @@ class ImageClassifier(LightningModule):
         logits = self(x)
         loss = F.nll_loss(logits, y)
         preds = torch.argmax(logits, dim=1)
-        acc = accuracy(preds, y)
+        acc = accuracy(preds, y, 'multiclass',num_classes=self.num_classes)
 
         if stage:
             self.log_dict({f"{stage}_loss": loss, f"{stage}_acc": acc}, prog_bar=True, on_epoch=True, on_step=False)

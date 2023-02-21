@@ -1,4 +1,4 @@
-# ⚡ Lightning-Wandb-template
+# ⚡ Simple-Lightning-Template
 This is a basic and simple template for PyTorch projects that utilizes PyTorch Lightning and Weight and Biases (Wandb).
 The goal of this project is to streamline the process of creating PyTorch projects from scratch or adapting existing 
 ones using these helpful libraries.
@@ -11,8 +11,8 @@ into a [Lightning datamodule](https://pytorch-lightning.readthedocs.io/en/stable
    * Use the configure_optimizers() hook to move Optimizers and schedulers to the Lightning model
 3. Create a new config file or modify the existing 'config.yaml' to include all the hyperparameters you need inside your model and datamodule and to specify right path to your data or model checkpointing
 # Note
-The configuration file is currently managed using the Omegaconf package. I find that Hydra, which also uses Omegaconf, adds a real layer of complexity
-which might not bt not necessary, especially since it raises issues with DDP training, W&B sweeps and more.
+The configuration file is currently managed using the Omegaconf package. I find that Hydra, which also uses Omegaconf, adds too much 
+complexity and creates some frictions with other libraries and functionalities such as DDP training or W&B sweeps.
 
 # Requirements
 * Python >= 3.5
@@ -29,7 +29,6 @@ which might not bt not necessary, especially since it raises issues with DDP tra
 
 
 # Todo :
-- [ ] Models clean checkpointing
 - [ ] Wandb sweeps
 - [ ] Advanced scheduling
 - [ ] Multi GPU training

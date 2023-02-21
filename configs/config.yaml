@@ -5,18 +5,19 @@ model:
 
 # Datamodule parameter
 datamodule:
-  name: imagenette160
+  name: imagenette160 #
+  num_classes: 10
   path: #if None, default dataset path is ~/datasets/[datamodule.name]
 
 # Optim parameters
 epochs: 2
-batch_size: 16
+batch_size: 32
 lr: 0.1
 
 # Logging parameters
 wandb:
   project: pytorch-template
-  name: #if None, wandb chose random number
+  name: test # use for W&B run name and for the checkpoint name
 
 # Other parameters
 nb_workers: 8
