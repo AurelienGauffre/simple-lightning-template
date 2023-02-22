@@ -11,6 +11,7 @@ import pytorch_lightning as pl
 from pathlib import Path
 
 
+
 class ImageDataModule(pl.LightningDataModule):
     """Basic image datamodule to load images from a folder for image classification.
     The dataset folder must contain at least two folders, 'train' and 'val', each of which being in Pytroch ImageFolder

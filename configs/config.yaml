@@ -1,6 +1,5 @@
 # Model parameters
 model:
-  name: imageclassifier
   arch: resnet18
 
 # Datamodule parameter
