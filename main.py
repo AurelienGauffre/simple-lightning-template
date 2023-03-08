@@ -4,7 +4,7 @@ from pathlib import Path
 from omegaconf import OmegaConf
 import torch
 
-from pytorch_lightning import Trainer
+from pytorch_lightning import Trainer, seed_everything
 from pytorch_lightning.callbacks import LearningRateMonitor
 from pytorch_lightning.callbacks.progress import TQDMProgressBar
 from pytorch_lightning.loggers import WandbLogger
@@ -21,19 +21,20 @@ params = OmegaConf.load(Path(Path(__file__).parent.resolve() / 'configs' / args.
 params.root_dir = str(Path(__file__).parent.resolve())
 
 if __name__ == "__main__":
+    seed_everything(params.seed, workers=True)
     # Wandb Logger
     wandb_logger = WandbLogger(project=params.wandb.project,
                                name=params.wandb.name,
                                save_dir=str(Path(params.root_dir) / 'saved')
                                )
 
-    # Lightning Datamodules (dataset, dataloader, augmentation)
+    # Lightning Datamodules (handles dataset, dataloader, augmentations or collate functions)
     datamodule = Imagenette160Datamodule(params)
 
     # Lighting Model (architecture, optimizer, scheduler)
     model = ImageClassifier(params)
 
-    # Lighting Model Checkpointing (save best model according to val accuracy)
+    # Lighting Model checkpointing strategy (save best model according to val accuracy)
     model_checkpoint_callback = ModelCheckpoint(dirpath=str(Path(params.root_dir) / 'saved'),
                                                 filename='{epoch}-{val_loss:.2f}-{val_acc:.2f}',
                                                 monitor="val_acc",
@@ -50,7 +51,8 @@ if __name__ == "__main__":
             LearningRateMonitor(logging_interval="epoch"),
             TQDMProgressBar(refresh_rate=20),
             model_checkpoint_callback],
-        logger=wandb_logger
+        logger=wandb_logger,
+        precision=params.precision
     )
 
     trainer.fit(model=model, datamodule=datamodule)

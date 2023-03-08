@@ -12,12 +12,13 @@ datamodule:
 epochs: 2
 batch_size: 32
 lr: 0.1
-
+precision: 32 #16 or "bf16"
 # Logging parameters
 wandb:
   project: pytorch-template
-  name: test # use for W&B run name and for the checkpoint name
+  name: run1 # use for W&B run name and for the checkpoint name
 
 # Other parameters
+seed: 42
 nb_workers: 8
 resume: False
