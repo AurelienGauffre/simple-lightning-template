@@ -46,7 +46,8 @@ if __name__ == "__main__":
     trainer = Trainer(
         max_epochs=params.epochs,
         accelerator="auto",
-        devices=1 if torch.cuda.is_available() else None,  # limiting got iPython runs
+        devices=params.gpu.nb_gpus if torch.cuda.is_available() else None,  # limiting got iPython runs
+        strategy=params.gpu.strategy,
         callbacks=[
             LearningRateMonitor(logging_interval="epoch"),
             TQDMProgressBar(refresh_rate=20),

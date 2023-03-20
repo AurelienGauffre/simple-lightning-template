@@ -18,6 +18,9 @@ wandb:
   project: pytorch-template
   name: run1 # use for W&B run name and for the checkpoint name
 
+gpu:
+  nb_gpus: 1
+  strategy:  #  nothing for single gpu training, "ddp" for DistributedDataParallel
 # Other parameters
 seed: 42
 nb_workers: 8
