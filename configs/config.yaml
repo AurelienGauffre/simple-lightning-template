@@ -1,12 +1,9 @@
 # Model parameters
-model:
-  arch: resnet18
-
+arch: resnet18
 # Datamodule parameter
-datamodule:
-  name: imagenette160 #
-  num_classes: 10
-  path: #if None, default dataset path is ~/datasets/[datamodule.name]
+dataset_name: imagenette160 #
+dataset_path: #if None, default dataset path is ~/datasets/[datamodule.dataset_name]
+num_classes: 10
 
 # Optim parameters
 epochs: 2

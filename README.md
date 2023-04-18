@@ -6,7 +6,7 @@ ones using these helpful libraries.
 
 # How to Use this Project
 
-1. Wrap your all your data processing step (which includes the creation of datasets, augmentations, and dataloaders)
+1. Wrap your all your data processing steps (which includes the creation of datasets, augmentations, and dataloaders)
    into a [Lightning datamodule](https://pytorch-lightning.readthedocs.io/en/stable/data/datamodule.html) (example
    provided in the 'datamodules' folder).
 2. Wrap your Torch model into
@@ -51,5 +51,5 @@ such as DDP training or W&B sweeps.
 - [ ] Multiple datasets
 - [ ] Add basic/intermediate examples in this repo of Lighting data modules and Lighting models
   (e.g. contrastive learning with fine-tuning, semi-supervised learning or other task like object detection,
-  segmentation or NLP tasks) ex
+  segmentation or NLP tasks)
 

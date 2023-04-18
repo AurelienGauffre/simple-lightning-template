@@ -1,7 +1,6 @@
 import sys
 import argparse
 from pathlib import Path
-from omegaconf import OmegaConf
 import torch
 
 from pytorch_lightning import Trainer, seed_everything
@@ -13,12 +12,12 @@ from pytorch_lightning.callbacks import ModelCheckpoint
 from datamodules.imagedatamodule import Imagenette160Datamodule
 from models.imageclassifier import ImageClassifier
 
+from utils import parse_config_file
+
 # Parsing CLI and config files
 parser = argparse.ArgumentParser(description='Lightning')
-parser.add_argument('--config', type=str, default='config.yaml', help='config file')
-args = parser.parse_args()
-params = OmegaConf.load(Path(Path(__file__).parent.resolve() / 'configs' / args.config))
-params.root_dir = str(Path(__file__).parent.resolve())
+parser.add_argument('--config', type=str, default='config.yaml', help='config file to use (default: config.yaml)')
+params = parse_config_file(parser)
 
 if __name__ == "__main__":
     seed_everything(params.seed, workers=True)

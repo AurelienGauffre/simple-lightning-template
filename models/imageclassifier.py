@@ -4,6 +4,7 @@ from torchmetrics.functional import accuracy
 from torchvision.models import resnet18, resnet34, resnet50
 from archs.resnet import ResNet18, ResNet34, ResNet50, ResNet101
 import torch
+import time
 
 dic_arch = {'resnet18': resnet18(),
             'resnet34': resnet34(),
@@ -12,11 +13,12 @@ dic_arch = {'resnet18': resnet18(),
 class ImageClassifier(LightningModule):
     def __init__(self, params):
         super().__init__()
-        self.arch = dic_arch[params.model.arch]
+        self.start_time = None
+        self.arch = dic_arch[params.arch]
         self.lr = params.lr
         self.epochs = params.epochs
         self.batch_size = params.batch_size
-        self.num_classes = params.datamodule.num_classes
+        self.num_classes = params.num_classes
 
     def forward(self, x):
         out = self.arch(x)
@@ -57,3 +59,12 @@ class ImageClassifier(LightningModule):
             "interval": "step",
         }
         return {"optimizer": optimizer, "lr_scheduler": scheduler_dict}
+    
+    def on_train_epoch_start(self):
+        self.start_time = time.time()
+
+    def on_train_epoch_end(self):
+        end_time = time.time()
+        elapsed_time = int(end_time - self.start_time)/60
+        self.log_dict({"total time": elapsed_time,"epoch avg time": elapsed_time/self.epochs}, on_epoch=True, on_step=False)
+     

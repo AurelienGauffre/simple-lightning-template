@@ -19,12 +19,10 @@ class ImageDataModule(pl.LightningDataModule):
 
     def __init__(self, params):
         super().__init__()
-        self.data_dir = Path(Path.home() / 'datasets' / params.datamodule.name) if params.datamodule.path is None \
-            else params.dataset.path
         self.batch_size = params.batch_size
         self.nb_workers = params.nb_workers
-        self.data_dir_train = Path(self.data_dir / 'train')
-        self.data_dir_val = Path(self.data_dir / 'val')
+        self.data_dir_train = Path(Path(params.dataset_path) / 'train')
+        self.data_dir_val = Path(Path(params.dataset_path) / 'val')
 
         self.train_transforms = None  # todo RaiseImplement error ?
         self.val_transforms = None
@@ -55,12 +53,10 @@ class ImageDataModule(pl.LightningDataModule):
 
 class Imagenette160Datamodule(ImageDataModule):
     """ Download dataset at : https://github.com/fastai/imagenette"""
+
     def __init__(self, params):
         super().__init__(params)
-        self.data_dir = Path(Path.home() / 'datasets' / 'Imagenette160') if params.datamodule.path is None \
-            else params.dataset.path
-        Path(Path.home() / 'datasets/Imagenette160')
-        self.num_classes = params.datamodule.num_classes
+        self.num_classes = params.num_classes
         tr_normalize = torchvision.transforms.Normalize(
             mean=[0.485, 0.456, 0.406], std=[0.228, 0.224, 0.225]
         )
